@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/models/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/user/user.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './filters/exception-handler.filter';
 
 @Module({
   imports: [
@@ -18,6 +20,12 @@ import { UsersModule } from './modules/user/user.module';
       entities: [User],
       synchronize: true,
     }),
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

@@ -1,4 +1,10 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/user.model';
 import { Repository } from 'typeorm';
@@ -14,7 +20,7 @@ export class UserController {
     return 'ea';
   }
   @Post()
-  async create(): Promise<string> {
-    return 'This action returns all cats';
+  async create() {
+    return 'created user';
   }
 }
