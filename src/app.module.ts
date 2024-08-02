@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/models/user.model';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './modules/user/user.module';
 
 @Module({
   imports: [
+    UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',

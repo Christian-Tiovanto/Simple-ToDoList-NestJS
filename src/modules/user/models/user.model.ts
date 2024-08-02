@@ -8,7 +8,7 @@ export class User {
   @Column()
   firstName: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   lastName: string;
 
   @Column({ default: true })
