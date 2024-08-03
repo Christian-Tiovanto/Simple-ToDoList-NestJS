@@ -21,15 +21,9 @@ export class UserService {
 
   @Post()
   async createUser(userDto: CreateUserDto): Promise<User> {
-    try {
-      const user = await this.usersRepository.create(userDto);
-      if (!user.id)
-        throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
-
-      return user;
-    } catch (error) {
-      console.log('error ea');
-      console.log(error);
-    }
+    const user = await this.usersRepository.create(userDto);
+    if (!user.id)
+      throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
+    return user;
   }
 }
