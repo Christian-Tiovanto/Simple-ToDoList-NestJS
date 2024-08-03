@@ -4,11 +4,13 @@ import { HttpStatus } from '@nestjs/common';
 
 export class ValidationError extends BaseValidationException {
   public errors: JsonApiValidationError;
-  constructor(message: string) {
+  constructor(message: string, key: string[], value: Record<string, any>) {
     super(message);
     this.errors = {
-      status: HttpStatus.BAD_REQUEST,
+      status: HttpStatus.BAD_REQUEST.toString(),
       title: message,
+      source: key,
+      detail: { type: 'Validation Error', context: { key, value } },
     };
   }
 }
