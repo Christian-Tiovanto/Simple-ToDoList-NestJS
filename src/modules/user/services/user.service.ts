@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ErrorCode } from 'src/enums/error-code';
 import { DuplicateEmailException } from 'src/exceptions/duplicate-email.exception';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -16,31 +17,29 @@ export class UserService {
   async createUser(userDto: CreateUserDto): Promise<User> {
     try {
       const user = await this.usersRepository.create(userDto);
-      console.log(user);
       await this.usersRepository.save(user);
       if (!user.id)
         throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
-      return user;
-    } catch (error) {
+      user.password = '';
+      return plainToInstance(User, user);
+    } catch (err) {
       if (
-        error instanceof QueryFailedError &&
-        error.driverError.code ===
-          ErrorCode.POSTGRES_UNIQUE_VIOLATION_ERROR_CODE
+        err instanceof QueryFailedError &&
+        err.driverError.code === ErrorCode.POSTGRES_UNIQUE_VIOLATION_ERROR_CODE
       ) {
-        console.log(error);
         throw new DuplicateEmailException(
           `${userDto.email} already register`,
           'email',
           userDto.email,
         );
       }
-      throw error;
+      throw err;
     }
   }
 
   async getAllUser(): Promise<User[]> {
     const users = await this.usersRepository.find();
-    console.log(users);
-    return users;
+
+    return plainToInstance(User, users);
   }
 }
