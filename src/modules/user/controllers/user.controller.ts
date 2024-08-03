@@ -1,26 +1,19 @@
-import {
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../models/user.model';
-import { Repository } from 'typeorm';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
+import { UserService } from '../services/user.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { UserValidationPipe } from 'src/modules/pipes/user-validation.pipe';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   async findAll(): Promise<string> {
     return 'ea';
   }
   @Post()
-  async create() {
-    return 'created user';
+  @UsePipes(new UserValidationPipe())
+  async createUser(@Body() userDto: CreateUserDto) {
+    return await this.userService.createUser(userDto);
   }
 }

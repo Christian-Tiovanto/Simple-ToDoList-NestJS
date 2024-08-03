@@ -13,7 +13,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Injectable()
 @UseInterceptors(TransformInterceptor)
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -21,7 +21,15 @@ export class UsersService {
 
   @Post()
   async createUser(userDto: CreateUserDto): Promise<User> {
-    const user = await this.usersRepository.create(userDto);
-    return user;
+    try {
+      const user = await this.usersRepository.create(userDto);
+      if (!user.id)
+        throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
+
+      return user;
+    } catch (error) {
+      console.log('error ea');
+      console.log(error);
+    }
   }
 }
