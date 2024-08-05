@@ -1,7 +1,7 @@
 import { IsEnum, IsNumber } from 'class-validator';
 import { TaskStatus } from 'src/enums/task-status';
 
-export class UpdateTaskDto {
+export class UpdateTaskStatusDto {
   @IsNumber()
   taskId: number;
 

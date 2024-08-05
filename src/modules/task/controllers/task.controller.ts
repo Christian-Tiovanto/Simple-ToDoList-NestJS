@@ -12,8 +12,9 @@ import {
 import { TaskService } from '../services/task.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { TaskDto } from '../dtos/task.dto';
-import { UpdateTaskDto } from '../dtos/updateTask.dto';
+import { UpdateTaskStatusDto } from '../dtos/updateTaskStatus.dto';
 import { DataValidationPipe } from 'src/pipes/user-validation.pipe';
+import { UpdateTaskDescDto } from '../dtos/updateTaskDesc.dto';
 
 @Controller('api/v1/task')
 @UseGuards(JwtAuthGuard)
@@ -32,7 +33,12 @@ export class TaskController {
   }
 
   @Patch('update')
-  async updateTaskStatus(@Body() updateTaskDto: UpdateTaskDto) {
-    return await this.taskService.updateTaskStatus(updateTaskDto);
+  async updateTaskStatus(@Body() updateTaskStatusDto: UpdateTaskStatusDto) {
+    return await this.taskService.updateTaskStatus(updateTaskStatusDto);
+  }
+
+  @Patch('updateDesc')
+  async updateTaskDesc(@Body() updateTaskDescDto: UpdateTaskDescDto) {
+    return await this.taskService.updateTaskDesc(updateTaskDescDto);
   }
 }
