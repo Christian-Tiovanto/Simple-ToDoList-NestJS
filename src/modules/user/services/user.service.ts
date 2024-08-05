@@ -9,11 +9,26 @@ import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      username: 'maria',
+      password: 'guess',
+    },
+  ];
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
 
+  async findOne(username: string) {
+    return this.users.find((user) => user.username == username);
+  }
   async createUser(userDto: CreateUserDto): Promise<User> {
     try {
       const user = await this.usersRepository.create(userDto);
