@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { Task } from 'src/modules/task/models/task.model';
+// import { Task } from 'src/modules/task/models/task.model';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -26,4 +28,7 @@ export class User {
   @Exclude()
   @Column()
   password: string;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 }

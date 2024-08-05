@@ -1,18 +1,13 @@
 import { TaskStatus } from 'src/enums/task-status';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  ManyToOne,
-} from 'typeorm';
+import { User } from 'src/modules/user/models/user.model';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 
 @Entity()
-export class User {
+export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   taskDesc: string;
 
   @CreateDateColumn()
@@ -21,7 +16,6 @@ export class User {
   @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.TODO })
   status: TaskStatus;
 
-  @Column()
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.tasks)
   user: User;
 }

@@ -6,9 +6,12 @@ import { UsersModule } from './modules/user/user.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/exception-handler.filter';
 import { AuthModule } from './modules/auth/auth.module';
+import { Task } from './modules/task/models/task.model';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
+    TaskModule,
     AuthModule,
     UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
@@ -19,7 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
       username: process.env.DB_USERNAME,
       password: 'SIMPLELEARNINGAPP',
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, Task],
       synchronize: true,
     }),
   ],

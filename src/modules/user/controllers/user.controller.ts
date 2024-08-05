@@ -24,6 +24,7 @@ export class UserController {
     console.log(req.user);
     return await this.userService.getAllUser();
   }
+
   @Post()
   @UsePipes(new UserValidationPipe())
   async createUser(@Body() userDto: CreateUserDto) {
