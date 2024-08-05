@@ -4,7 +4,7 @@ import { validate } from 'class-validator';
 import { ValidationError } from 'src/exceptions/validation-error.exception';
 
 @Injectable()
-export class UserValidationPipe implements PipeTransform {
+export class DataValidationPipe implements PipeTransform {
   async transform(value: any, metadata: ArgumentMetadata) {
     const object = plainToInstance(metadata.metatype, value);
     const errors = await validate(object);
@@ -14,11 +14,10 @@ export class UserValidationPipe implements PipeTransform {
     const errorsValue = errors.map((error) => {
       return error.constraints;
     });
-    console.log('errors di validation');
+    console.log('ini di pipe');
     console.log(errorsKey);
-    console.log(errors);
-    if (errors.length > 0)
-      throw new ValidationError('Validation Error', errorsKey, errorsValue);
+    console.log(errorsValue);
+    if (errors.length > 0) throw new ValidationError('Validation Error', errorsKey, errorsValue);
     return value;
   }
 }

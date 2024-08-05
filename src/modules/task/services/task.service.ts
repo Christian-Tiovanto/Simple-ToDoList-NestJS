@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from '../models/task.model';
 import { DataSource, Repository } from 'typeorm';
@@ -6,6 +6,8 @@ import { TaskDto } from '../dtos/task.dto';
 import { UserService } from 'src/modules/user/services/user.service';
 import { plainToInstance } from 'class-transformer';
 import { User } from 'src/modules/user/models/user.model';
+import { TaskStatus } from 'src/enums/task-status';
+import { UpdateTaskDto } from '../dtos/updateTask.dto';
 @Injectable()
 export class TaskService {
   constructor(
@@ -28,6 +30,14 @@ export class TaskService {
     tasks.forEach((task) => {
       task.user = plainToInstance(User, task.user);
     });
+    return tasks;
+  }
+
+  async updateTaskStatus(updateTaskDto: UpdateTaskDto) {
+    const tasks = await this.taskRepository.findOne({ where: { id: updateTaskDto.taskId } });
+    if (!tasks) throw new NotFoundException('Task Not Found');
+    tasks.status = updateTaskDto.taskStatus;
+    await this.taskRepository.save(tasks);
     return tasks;
   }
 }

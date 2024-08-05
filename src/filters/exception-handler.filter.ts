@@ -1,6 +1,7 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { Request, Response } from 'express';
+import { BaseValidationException } from 'src/exceptions/base.exception';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -9,11 +10,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     switch (true) {
-      case exception instanceof ValidationError:
+      case exception instanceof BaseValidationException:
         response.status(HttpStatus.BAD_REQUEST);
         response.json({
-          error: (exception as any).errors,
-          path: request.originalUrl,
+          error: exception.errors,
         });
         break;
       case (exception as any).code == 23505:

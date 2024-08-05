@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
-import { UserValidationPipe } from 'src/pipes/user-validation.pipe';
+import { DataValidationPipe } from 'src/pipes/user-validation.pipe';
 import { ResponseFormatInterceptor } from 'src/interceptors/response-format.interceptor';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
-@Controller('user')
+@Controller('api/v1/user')
 @UseInterceptors(ResponseFormatInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -26,7 +26,7 @@ export class UserController {
   }
 
   @Post()
-  @UsePipes(new UserValidationPipe())
+  @UsePipes(new DataValidationPipe())
   async createUser(@Body() userDto: CreateUserDto) {
     return await this.userService.createUser(userDto);
   }
