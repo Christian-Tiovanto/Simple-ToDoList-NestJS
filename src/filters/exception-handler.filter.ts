@@ -33,7 +33,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         break;
       default:
         response.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        response.json({ message: 'something went wrong', errors: exception });
+        console.log('exception');
+        console.log(exception);
+        response.json({
+          message: 'something went wrong',
+          errors: exception.stack,
+        });
     }
   }
 }

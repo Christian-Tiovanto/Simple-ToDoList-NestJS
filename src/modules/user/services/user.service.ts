@@ -18,8 +18,7 @@ export class UserService {
     try {
       const user = await this.usersRepository.create(userDto);
       await this.usersRepository.save(user);
-      if (!user.id)
-        throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
+      if (!user.id) throw new HttpException('User Create Failed', HttpStatus.BAD_REQUEST);
       user.password = '';
       return plainToInstance(User, user);
     } catch (err) {
@@ -41,5 +40,10 @@ export class UserService {
     const users = await this.usersRepository.find();
 
     return plainToInstance(User, users);
+  }
+
+  async getUserbyEmail(email: string): Promise<User> | undefined {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    return user;
   }
 }
