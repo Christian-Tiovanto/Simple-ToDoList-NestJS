@@ -5,6 +5,8 @@ import { HttpExceptionFilter } from './filters/exception-handler.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
+  console.log('process.env.NODE_ENV');
+  console.log(process.env.NODE_ENV);
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   const swaggerConfig = new DocumentBuilder()

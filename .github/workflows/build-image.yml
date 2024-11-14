@@ -1,0 +1,53 @@
+name: Build And Push Backend Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # runs only if this workflow is dispatched on 'tag', not 'branch'
+      - name: Validate running ref type
+        run: |
+          REF_TYPE=${{ github.ref_type }}
+          if [[ "$REF_TYPE" != "tag" ]]; then
+            echo "Workflow is not run on tag."
+            exit 1
+          fi
+          echo "Workflow is running of tag"
+
+      # Extract the tag name and validate it with regex
+      - name: Validate tag with regex
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)(\.[0-9]+)?)?$ ]]; then
+            echo "Tag format is invalid. Exiting."
+            exit 1
+          fi
+
+      - name: Validate Git tag matches package.json version
+        id: validate_version
+        run: |
+          PACKAGE_VERSION=$(jq -r '.version' < package.json)
+          TAG_VERSION=${GITHUB_REF_NAME#v} 
+          if [[ "$PACKAGE_VERSION" != "$TAG_VERSION" ]]; then
+            echo "Tag version ($TAG_VERSION) does not match package.json version ($PACKAGE_VERSION)."
+            exit 1
+          fi
+          echo "Tag version matches package.json version."
+
+      - name: Login to Amazon Elastic Container Registry
+        run: aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 314146321641.dkr.ecr.ap-southeast-2.amazonaws.com
+
+      # - name: Build the Docker image
+      #   run: |
+      #     TAG_VERSION=${GITHUB_REF_NAME#v}
+      #     docker build -t ghcr.io/${{ github.repository_owner }}/obsidia-backend:$TAG_VERSION .
+
+      # - name: Push the versioned Docker image
+      #   run: |
+      #     TAG_VERSION=${GITHUB_REF_NAME#v}
+      #     docker push ghcr.io/${{ github.repository_owner }}/obsidia-backend:$TAG_VERSION

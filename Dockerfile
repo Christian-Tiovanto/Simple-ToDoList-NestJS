@@ -1,10 +1,9 @@
-FROM node:22-alpine as build-stage
+FROM node:22-alpine AS build-stage
 WORKDIR /app
 COPY ./package.json ./
-COPY ./yarn.lock ./
-RUN yarn install && yarn cache clean -f
+RUN npm install && npm cache clean -f
 COPY . .
-RUN yarn build
+RUN npm run build
 
 FROM node:18-alpine AS production-stage
 WORKDIR /app
@@ -13,4 +12,4 @@ COPY --from=build-stage /app/src ./src
 COPY --from=build-stage /app/node_modules ./node_modules
 COPY --from=build-stage /app/package* ./
 COPY --from=build-stage /app/tsconfig* ./
-ENTRYPOINT [ "yarn",'start:prod' ]
+ENTRYPOINT ["npm", "run", "start:prod"]
