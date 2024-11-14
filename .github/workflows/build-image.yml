@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Clear Cache
+        run: rm -rf ~/.cache
+
       - uses: actions/checkout@v4
 
       # runs only if this workflow is dispatched on 'tag', not 'branch'
