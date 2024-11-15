@@ -69,6 +69,14 @@ jobs:
           task-definition-arn: arn:aws:ecs:ap-southeast-2:314146321641:task-definition/simple-todo-list:2
           container-name: simple-todo-list
           image: ${{ steps.build-image.outputs.image }}
+          environment-variables: |
+            DB_NAME=postgres
+            DB_PASSWORD=database_cdn_fin
+            DB_TYPE=postgres
+            DB_PORT=6543
+            DB_HOST=aws-0-ap-southeast-1.pooler.supabase.com
+            DB_URL="postgresql://postgres.tjceejbkkumgwxqihyrk:database_cdn_fin@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
+
       - name: check nama output
         run: echo ${{steps.build-image.outputs.image}}
 
