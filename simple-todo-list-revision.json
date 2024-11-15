@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-2:314146321641:task-definition/simple-todo-list:2",
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-2:314146321641:task-definition/simple-todo-list:3",
     "containerDefinitions": [
         {
             "name": "simple-todo-list",
-            "image": "314146321641.dkr.ecr.ap-southeast-2.amazonaws.com/simple-todo-list:v0.0.1-beta",
+            "image": "314146321641.dkr.ecr.ap-southeast-2.amazonaws.com/simple-todo-list:v0.0.2-beta.2",
             "cpu": 0,
             "portMappings": [
                 {
@@ -22,40 +22,7 @@
                 }
             ],
             "essential": true,
-            "environment": [
-                {
-                    "name": "DB_TYPE",
-                    "value": "postgres"
-                },
-                {
-                    "name": "DB_USERNAME",
-                    "value": "postgres.tjceejbkkumgwxqihyrk"
-                },
-                {
-                    "name": "DB_PORT",
-                    "value": "6543"
-                },
-                {
-                    "name": "JWT_SECRET",
-                    "value": "SIMPLE_TODOLIST_APP_SECRET"
-                },
-                {
-                    "name": "DB_URL",
-                    "value": "postgresql://postgres.tjceejbkkumgwxqihyrk:database_cdn_fin@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
-                },
-                {
-                    "name": "DB_NAME",
-                    "value": "postgres"
-                },
-                {
-                    "name": "DB_HOST",
-                    "value": "aws-0-ap-southeast-1.pooler.supabase.com"
-                },
-                {
-                    "name": "DB_PASSWORD",
-                    "value": "database_cdn_fin"
-                }
-            ],
+            "environment": [],
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
@@ -78,7 +45,7 @@
     "family": "simple-todo-list",
     "executionRoleArn": "arn:aws:iam::314146321641:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 3,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -124,7 +91,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-11-14T03:59:12.255Z",
+    "registeredAt": "2024-11-15T06:40:13.982Z",
     "registeredBy": "arn:aws:iam::314146321641:root",
     "tags": []
 }
