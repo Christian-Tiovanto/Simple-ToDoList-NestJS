@@ -1,19 +1,65 @@
 {
-    "family": "simple-todo-list",
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-2:314146321641:task-definition/simple-todo-list:7",
     "containerDefinitions": [
-      {
-        "name": "simple-todo-list",
-        "image": "PLACEHOLDER_IMAGE",
-        "memory": 512,
-        "cpu": 256,
-        "essential": true,
-        "portMappings": [
-          {
-            "containerPort": 80,
-            "hostPort": 80
-          }
-        ]
-      }
-    ]
+        {
+            "name": "simple-todo-list",
+            "image": "314146321641.dkr.ecr.ap-southeast-2.amazonaws.com/simple-todo-list:v0.0.2-beta.3",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DB_NAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "DB_TYPE",
+                    "value": "postgres"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "6543"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "aws-0-ap-southeast-1.pooler.supabase.com"
+                },
+                {
+                    "name": "DB_URL",
+                    "value": "\"postgresql://postgres.tjceejbkkumgwxqihyrk:database_cdn_fin@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres\""
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "database_cdn_fin"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": []
+        }
+    ],
+    "family": "simple-todo-list",
+    "revision": 7,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ],
+    "registeredAt": "2024-11-15T07:45:49.684Z",
+    "registeredBy": "arn:aws:iam::314146321641:user/simple-global-remit-admin",
+    "tags": []
 }
-  
