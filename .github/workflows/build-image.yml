@@ -66,5 +66,5 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: simple-todo-list-revision.json
-          container-name: my-container
+          container-name: simple-todo-list
           image: ${{ steps.build-image.outputs.image }}
