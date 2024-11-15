@@ -71,3 +71,11 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
       - name: check nama output
         run: echo ${{steps.build-image.outputs.image}}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: simple-todo-list
+          cluster: simple-todo-list
+          wait-for-service-stability: true
